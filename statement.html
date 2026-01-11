@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Summary of SOA Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 15px;
+      margin-right: 10px;
+      cursor: pointer;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Summary of SOA Form</h1>
+  <div class="form-container">
+    <table id="soaTable">
+      <thead>
+        <tr>
+          <th>Account</th>
+          <th>SOA No.</th>
+          <th>SOA Date</th>
+          <th>Training</th>
+          <th>Training Date</th>
+          <th>No. of Pax</th>
+          <th>Amount Billed</th>
+          <th>Amount Collected</th>
+          <th>Base Fee</th>
+          <th>Disc or MU</th>
+          <th>AF-R</th>
+          <th>AF</th>
+          <th>Training Fee</th>
+          <th>Meals & Accom</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="date"></td>
+          <td><input type="text"></td>
+          <td><input type="date"></td>
+          <td><input type="number"></td>
+          <td><input type="number"></td>
+          <td><input type="number"></td>
+          <td><input type="number"></td>
+          <td><input type="number"></td>
+          <td><input type="number"></td>
+          <td><input type="number"></td>
+          <td><input type="number"></td>
+          <td><input type="number"></td>
+        </tr>
+      </tbody>
+    </table>
+    <button onclick="addRow()">Add Row</button>
+  </div>
+
+  <div class="buttons">
+    <button onclick="saveAsExcel()">Save as XLS</button>
+    <button onclick="printForm()">Print</button>
+    <button onclick="clearForm()">Clear</button>
+    <button onclick="saveToDatabase()">Save to Database</button>
+  </div>
+
+  <script>
+    // Add a new row to the table
+    function addRow() {
+      const table = document.getElementById("soaTable").getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow();
+      for (let i = 0; i < 14; i++) {
+        const newCell = newRow.insertCell(i);
+        newCell.innerHTML = `<input type="${i === 2 || i === 4 ? 'date' : 'number'}">`;
+        if (i === 0 || i === 1 || i === 3) newCell.innerHTML = `<input type="text">`;
+      }
+    }
+
+    // Clear all inputs
+    function clearForm() {
+      document.querySelectorAll('input').forEach(input => input.value = '');
+    }
+
+    // Print the form
+    function printForm() {
+      window.print();
+    }
+
+    // Save form data as Excel
+    function saveAsExcel() {
+      const table = document.getElementById("soaTable");
+      let tableText = "<table border='1'>" + table.innerHTML + "</table>";
+      const data = 'data:application/vnd.ms-excel,' + encodeURIComponent(tableText);
+      const link = document.createElement("a");
+      link.href = data;
+      link.download = "Summary_of_SOA.xls";
+      link.click();
+    }
+
+    // Simulate saving to a database
+    function saveToDatabase() {
+      const rows = [];
+      document.querySelectorAll('#soaTable tbody tr').forEach(tr => {
+        const row = {};
+        tr.querySelectorAll('input').forEach((input, index) => {
+          row[`col${index + 1}`] = input.value;
+        });
+        rows.push(row);
+      });
+      console.log("Data to be saved:", rows);
+      alert("Data saved successfully!");
+    }
+  </script>
+
+</body>
+</html>

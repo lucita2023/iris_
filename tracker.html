@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Release Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        .tracker-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: teal;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: teal;
+            color: white;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #clear-btn { background-color: red; }
+        #print-btn { background-color: orange; }
+        #save-btn { background-color: green; }
+        #update-btn { background-color: blue; }
+        #add-row-btn { background-color: purple; }
+    </style>
+</head>
+<body>
+
+    <div class="tracker-container">
+        <h2>Budget Release Tracker</h2>
+        <table id="budget-table">
+            <tr>
+                <th>WHEN</th>
+                <th>WHO</th>
+                <th>WHAT</th>
+                <th>AMOUNT RELEASED</th>
+            </tr>
+            <tr>
+                <td contenteditable="true">Date</td>
+                <td contenteditable="true">Name</td>
+                <td contenteditable="true">Description</td>
+                <td contenteditable="true">$0.00</td>
+            </tr>
+        </table>
+
+        <button id="add-row-btn" onclick="addRow()">Add Row</button>
+        <button id="clear-btn" onclick="clearTable()">Clear</button>
+        <button id="print-btn" onclick="printTable()">Print</button>
+        <button id="save-btn" onclick="saveAsExcel()">Save as XLS</button>
+        <button id="update-btn" onclick="updateDatabase()">Update Database</button>
+    </div>
+
+    <script>
+        // Function to add a new row to the table
+        function addRow() {
+            const table = document.getElementById("budget-table");
+            const newRow = table.insertRow(-1);  // Inserts at the end of the table
+
+            for (let i = 0; i < 4; i++) {
+                const cell = newRow.insertCell(i);
+                cell.contentEditable = "true";
+                cell.innerText = i === 3 ? "$0.00" : "";  // Default for amount released column
+            }
+        }
+
+        // Clear Table Function
+        function clearTable() {
+            const rows = document.querySelectorAll("#budget-table tr:not(:first-child)");
+            rows.forEach(row => row.parentNode.removeChild(row));  // Remove all rows except the header
+        }
+
+        // Print Table Function
+        function printTable() {
+            window.print();
+        }
+
+        // Save Table as Excel Function
+        function saveAsExcel() {
+            let table = document.getElementById("budget-table").outerHTML;
+            let blob = new Blob([table], { type: "application/vnd.ms-excel" });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "budget_tracker.xls";
+            link.click();
+        }
+
+        // Update Database Function (Placeholder)
+        function updateDatabase() {
+            alert("Database update functionality is not yet implemented.");
+            // Add code to send data to a backend server or API if applicable
+        }
+    </script>
+</body>
+</html>

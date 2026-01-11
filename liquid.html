@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: red;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .no-border {
+            border: none;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #f0f0f0;
+        }
+        .total-row {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+        .input-field {
+            width: 100%;
+            border: none;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Purchase Order</h1>
+        <form id="purchaseOrderForm">
+            <table>
+                <tr>
+                    <td>P.O. #: <input type="text" class="input-field" name="poNumber"></td>
+                    <td>Date: <input type="date" class="input-field" id="currentDate" name="date"></td>
+                </tr>
+                <tr>
+                    <td>Payment Terms: <input type="text" class="input-field" name="paymentTerms"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Supplier Name: <input type="text" class="input-field" name="supplierName"></td>
+                </tr>
+                <tr>
+                    <td>Address: <input type="text" class="input-field" name="address"></td>
+                    <td>Delivery: <input type="text" class="input-field" name="delivery"></td>
+                </tr>
+                <tr>
+                    <td>Attention: <input type="text" class="input-field" name="attention"></td>
+                    <td>Pick-Up/Look For: <input type="text" class="input-field" name="pickup"></td>
+                </tr>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item #</th>
+                        <th>Description</th>
+                        <th>Qty</th>
+                        <th>Unit</th>
+                        <th>Unit Price</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsTable">
+                    <tr>
+                        <td><input type="text" class="input-field" name="itemNumber"></td>
+                        <td><input type="text" class="input-field" name="description"></td>
+                        <td><input type="number" class="input-field" name="quantity"></td>
+                        <td><input type="text" class="input-field" name="unit"></td>
+                        <td><input type="number" class="input-field" name="unitPrice"></td>
+                        <td><input type="number" class="input-field" name="amount"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="5" style="text-align: right;">Total Amount (PHP):</td>
+                        <td><input type="number" class="input-field" name="totalAmount" readonly></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <table class="no-border">
+                <tr>
+                    <td>Prepared By:</td>
+                    <td><input type="text" class="input-field" name="preparedBy"></td>
+                </tr>
+                <tr>
+                    <td>Approved By:</td>
+                    <td><input type="text" class="input-field" name="approvedBy"></td>
+                </tr>
+                <tr>
+                    <td>Received By:</td>
+                    <td><input type="text" class="input-field" name="receivedBy"></td>
+                </tr>
+                <tr>
+                    <td>Supplier/Date:</td>
+                    <td><input type="text" class="input-field" id="supplierDate" name="supplierDate" readonly></td>
+                </tr>
+            </table>
+            <div class="buttons">
+                <button type="button" onclick="saveForm()">Save</button>
+                <button type="button" onclick="window.print()">Print</button>
+                <button type="reset">Clear</button>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        // Function to populate the date fields with the current date
+        window.onload = function() {
+            const currentDateInput = document.getElementById('currentDate');
+            const supplierDateInput = document.getElementById('supplierDate');
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+            
+            currentDateInput.value = formattedDate; // Sets current date
+            supplierDateInput.value = formattedDate; // Sets supplier date
+        };
+
+        function saveForm() {
+            alert('Form saved successfully!');
+        }
+    </script>
+</body>
+</html>

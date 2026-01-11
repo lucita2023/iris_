@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Commencement Coordination</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script> <!-- Library for XLS export -->
+    <style>
+        .buttons {
+            margin-top: 20px;
+        }
+        .buttons button {
+            margin-right: 10px;
+        }
+        .add-row-btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TRAINING COMMENCEMENT COORDINATION</h1>
+            <p>Training Details for September 2024</p>
+        </div>
+
+        <form>
+            <table id="trainingTable">
+                <thead>
+                    <tr>
+                        <th>ACCOUNT</th>
+                        <th>TRAINING</th>
+                        <th>TRAINING DATE</th>
+                        <th>NO. OF DAYS</th>
+                        <th>INCLUSIONS</th>
+                        <th>OFFICIAL RATE</th>
+                        <th>FEES BREAKDOWN</th>
+                        <th>REMARKS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" placeholder="Account"></td>
+                        <td><input type="text" placeholder="Training"></td>
+                        <td><input type="date" placeholder="Training Date"></td>
+                        <td><input type="number" placeholder="No. of Days"></td>
+                        <td><input type="text" placeholder="Inclusions"></td>
+                        <td><input type="number" placeholder="Official Rate"></td>
+                        <td><input type="text" placeholder="Fees Breakdown"></td>
+                        <td><input type="text" placeholder="Remarks"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        <!-- Buttons for Save, Print, Submit, and Add Row -->
+        <div class="buttons">
+            <button onclick="saveAsXLS()">Save as XLS</button>
+            <button onclick="printForm()">Print</button>
+            <button onclick="submitToGoogleSheet()">Submit to Google Sheets</button>
+        </div>
+        
+        <!-- Button for adding new row -->
+        <div class="add-row-btn">
+            <button onclick="addNewRow()">Add New Row</button>
+        </div>
+    </div>
+
+    <script>
+        const webAppUrl = "YOUR_GOOGLE_WEB_APP_URL_HERE"; // Replace with your Google Apps Script Web App URL
+
+        // Function to save the form as an XLS file
+        function saveAsXLS() {
+            const table = document.getElementById('trainingTable');
+            const wb = XLSX.utils.table_to_book(table, {sheet: "Training Data"});
+            XLSX.writeFile(wb, 'Training_Commencement_Coordination.xlsx');
+        }
+
+        // Function to print the form
+        function printForm() {
+            window.print();
+        }
+
+        // Function to add a new row to the table
+        function addNewRow() {
+            const table = document.getElementById('trainingTable').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+
+            for (let i = 0; i < 8; i++) {
+                const newCell = newRow.insertCell(i);
+                let inputElement = document.createElement('input');
+                if (i === 2) {
+                    inputElement.type = 'date';
+                } else if (i === 3 || i === 5) {
+                    inputElement.type = 'number';
+                } else {
+                    inputElement.type = 'text';
+                }
+                newCell.appendChild(inputElement);
+            }
+        }
+
+        // Function to submit data to Google Sheets
+        function submitToGoogleSheet() {
+            const table = document.getElementById('trainingTable');
+            const rows = table.getElementsByTagName('tr');
+            const data = [];
+            const date = new Date().toISOString().split('T')[0]; // Capture current date
+
+            // Loop through each row and collect input values
+            for (let i = 1; i < rows.length; i++) {
+                const inputs = rows[i].getElementsByTagName('input');
+                const rowData = Array.from(inputs).map(input => input.value || ""); // Get all input values
+                if (rowData.length > 0) {
+                    data.push(rowData);
+                }
+            }
+
+            // Create payload for submission
+            const payload = {
+                date: date,
+                trainingData: data
+            };
+
+            // Send data to the Google Apps Script Web App
+            fetch(webAppUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === "success") {
+                    alert("Data successfully submitted to Google Sheets!");
+                } else {
+                    alert("Error submitting data: " + result.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while submitting data.");
+            });
+        }
+    </script>
+</body>
+</html>

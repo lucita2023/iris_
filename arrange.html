@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary of Arrangements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+        h2 {
+            color: teal;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f7b733;
+            color: white;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #save-btn { background-color: green; }
+        #print-btn { background-color: orange; }
+        #edit-btn { background-color: blue; }
+        #update-btn { background-color: purple; }
+        #add-row-btn { background-color: teal; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Summary of Arrangements</h2>
+        <table id="summary-table">
+            <thead>
+                <tr>
+                    <th>ACCOUNT</th>
+                    <th>AE</th>
+                    <th>MAIN CONTACT/S FOR ARRANGEMENTS</th>
+                    <th>DESIGNATION</th>
+                    <th>COURSE/S</th>
+                    <th>OLD RATES</th>
+                    <th>FEES' BREAKDOWN - BASE</th>
+                    <th>DISCOUNT</th>
+                    <th>AF-R</th>
+                    <th>OFFICIAL RATE</th>
+                    <th>LAST UPDATE</th>
+                    <th>TERMS (WEEKS)</th>
+                    <th>SIGNED DOCS - MOA</th>
+                    <th>SIGNED DOCS - SP</th>
+                    <th>REMARKS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Sample row -->
+                <tr>
+                    <td contenteditable="false">Company A</td>
+                    <td contenteditable="false">AE1</td>
+                    <td contenteditable="false">John Doe</td>
+                    <td contenteditable="false">Manager</td>
+                    <td contenteditable="false">BT</td>
+                    <td contenteditable="false">₱7,000.00</td>
+                    <td contenteditable="false">₱13,000.00</td>
+                    <td contenteditable="false">-</td>
+                    <td contenteditable="false">₱2,000.00</td>
+                    <td contenteditable="false">₱15,000.00</td>
+                    <td contenteditable="false">02/01/2024</td>
+                    <td contenteditable="false">2</td>
+                    <td contenteditable="false">N/A</td>
+                    <td contenteditable="false">✔</td>
+                    <td contenteditable="false">-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button id="add-row-btn" onclick="addRow()">Add Row</button>
+        <button id="edit-btn" onclick="toggleEdit()">Edit</button>
+        <button id="save-btn" onclick="saveAsExcel()">Save as XLS</button>
+        <button id="print-btn" onclick="printTable()">Print</button>
+        <button id="update-btn" onclick="updateDatabase()">Update Database</button>
+    </div>
+
+    <script>
+        let isEditable = false;
+
+        // Toggle edit mode
+        function toggleEdit() {
+            const cells = document.querySelectorAll("#summary-table td");
+            isEditable = !isEditable;
+            cells.forEach(cell => cell.contentEditable = isEditable);
+            document.getElementById("edit-btn").innerText = isEditable ? "Save Edits" : "Edit";
+        }
+
+        // Add Row Function
+        function addRow() {
+            const table = document.getElementById("summary-table").getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();  // Insert new row at the end
+
+            for (let i = 0; i < 15; i++) {  // Adjust for 15 columns
+                const cell = newRow.insertCell(i);
+                cell.contentEditable = "true";  // New row cells are editable by default
+                cell.innerText = i === 5 ? "₱0.00" : "";  // Default value for 'OLD RATES'
+            }
+        }
+
+        // Print Table Function
+        function printTable() {
+            window.print();
+        }
+
+        // Save Table as Excel Function
+        function saveAsExcel() {
+            let table = document.getElementById("summary-table").outerHTML;
+            let blob = new Blob([table], { type: "application/vnd.ms-excel" });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "summary_of_arrangements.xls";
+            link.click();
+        }
+
+        // Update Database Function (Placeholder)
+        function updateDatabase() {
+            alert("Database update functionality is not yet implemented.");
+            // Add code to send data to a backend server or API if applicable
+        }
+    </script>
+</body>
+</html>

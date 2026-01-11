@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Peoples Form</h2>
+        <ul>
+            <li><a href="#" onclick="showContent('Weekly-Iteineary-Form')">Weekly-Iteineary</a></li><!--done-->
+            <li><a href="#" onclick="showContent('Training Commencement Coordination')"> Training Commencement</a></li><!--done-->
+            <li><a href="#" onclick="showContent('SVF')">SVFs</a></li><!--done site.html-->
+            <li><a href="#" onclick="showContent('Summary')">Summary Accts (SOA)</a></li><!--done soa.html summary of accounts-->
+            <li><a href="#" onclick="showContent('SOA')">Summary of Target Accts</a></li><!--done target.html-->
+
+            <li><a href="#" onclick="showContent('Arrangement')">**Summary of Arrangement</a></li><!--done arrange.html  revise-->
+
+            <li><a href="#" onclick="showContent('MasterList of Accounts')">MasterList of Accts</a></li> <!--done master.html-->
+
+            <li><a href="#" onclick="showContent('Liquidation form')">Liquidation Form</a></li><!--done liquid.htm-->
+
+            <li><a href="#" onclick="showContent('Dis')">Distibution form</a></li><!--done istri.htm-->
+
+            <li><a href="#" onclick="showContent('Budget of Request')">Budget of Request</a></li><!--done budget.html-->
+
+           
+            <li><a href="#" onclick="showContent('Tracker')">**Budget Rel Tracker</a></li><!--tracker.html-->
+            
+            <li><a href="#" onclick="showContent('Client')">Client Forms</a></li> <!-- client.html-->
+        <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>
+            <h6>@LCG Dev</h6>
+        </ul>
+    </div>
+
+
+
+    <div class="main-content">
+        <div id="home" class="content active">
+            <h1>Welcome to the Dashboard!</h1>
+            <button onclick="showContent('stats')">Go to Content</button>
+        </div>
+        <div id="stats" class="content">
+            <h1>Statistics Overview</h1>
+            <div class="chart-container">
+                <canvas id="chart"></canvas>
+            </div>
+            <button onclick="showContent('home')">Back to Home</button>
+        </div>
+        <div id="settings" class="content">
+            <h1>Settings</h1>
+            <p>Adjust your preferences here.</p>
+            <button onclick="showContent('home')">Back to Home</button>
+        </div>
+
+        <!-- Add the Weekly Schedule Content -->
+        <div id="Weekly-Iteineary-Form" class="content">
+            <iframe src="week.html" width="100%" height="800px"></iframe>
+
+           <!-- Add the training Content --> 
+           
+        </div>
+        <div id="Training Commencement Coordination" class="content">
+            <iframe src="training.html" width="100%" height="800px"></iframe>
+       
+        </div>
+
+
+        <!--3 site-->
+        <div id="SVF" class="content">
+            <iframe src="site.html" width="100%" height="800px"></iframe>
+       
+        </div>
+
+          <!--4 Summary-->
+          <div id="Summary" class="content">
+            <iframe src="soa.html" width="100%" height="800px"></iframe>
+       
+        </div>
+
+          <!--5 target -->
+          <div id="SOA" class="content">
+            <iframe src="target.html" width="100%" height="800px"></iframe>
+       
+        </div>
+        <!--5.1 arrangement -->
+        <div id="Arrangement" class="content">
+            <iframe src="arrange.html " width="100%" height="800px"></iframe>
+       
+        </div>
+
+          <!-- 6 sattement.html-->
+          <div id="soa" class="content">
+            <iframe src="statement.html" width="100%" height="800px"></iframe>
+       
+        </div>
+
+          <!--47masterliste-->
+          <div id="MasterList of Accounts" class="content">
+            <iframe src="master.html" width="100%" height="800px"></iframe>
+       
+        </div>
+
+          <!--8 -->
+          <div id="Liquidation form" class="content">
+            <iframe src="liquid.html" width="100%" height="800px"></iframe>
+            </div>
+
+            <!--9 -->
+          <div id="Dis" class="content">
+            <iframe src="distri.html" width="100%" height="800px"></iframe>
+            </div>
+
+            <!--10 -->
+          <div id="Budget of Request" class="content">
+            <iframe src="budget.html" width="100%" height="800px"></iframe>
+       
+        </div>
+
+        <!--'Budget release Tracker-->
+        <div id="#" class="content">
+            <iframe src="#" width="100%" height="800px"></iframe>
+       
+        </div>
+            <!-- client.html-->    
+        <div id="Client" class="content">
+            <iframe src="client.html" width="100%" height="800px"></iframe>
+       
+        </div>
+       
+
+          <!-- tracker.html-->    
+          <div id="Tracker" class="content">
+            <iframe src="tracker.html" width="100%" height="800px"></iframe>
+       
+        </div>
+        <!---->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
+
+    <script>
+        // Function to show the selected content
+        function showContent(contentId) {
+            // Hide all content
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Show the selected content
+            const activeContent = document.getElementById(contentId);
+            if (activeContent) {
+                activeContent.classList.add('active');
+            }
+        }
+    </script>
+
+
+
+</body>
+</html>

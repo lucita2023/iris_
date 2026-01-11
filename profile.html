@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .profile-container {
+      width: 300px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 2px solid #ddd;
+    }
+    .upload-btn {
+      margin-bottom: 15px;
+    }
+    .info-section {
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <img id="profilePic" class="profile-pic" src="https://via.placeholder.com/100" alt="Profile Picture">
+    <input type="file" id="imageUpload" class="upload-btn" accept="image/*" onchange="updateProfilePicture(event)">
+    
+    <div class="info-section">
+      <input id="nameInput" type="text" placeholder="Your Name" value="lucita cabral">
+      <input id="emailInput" type="email" placeholder="Your Email" value="lucita@gmail.com">
+      <button onclick="saveInfo()">Save Changes</button>
+    </div>
+    
+    <div class="info-section" id="output">
+      <p><b>Name:</b> <span id="displayName">lucita cabral</span></p>
+      <p><b>Email:</b> <span id="displayEmail">lucita@gmail.com</span></p>
+    </div>
+  </div>
+
+  <script>
+    // Function to update profile picture
+    function updateProfilePicture(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          document.getElementById('profilePic').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Function to save and display updated information
+    function saveInfo() {
+      const name = document.getElementById('nameInput').value;
+      const email = document.getElementById('emailInput').value;
+      document.getElementById('displayName').textContent = name;
+      document.getElementById('displayEmail').textContent = email;
+      alert("Profile updated successfully!");
+    }
+  </script>
+</body>
+</html>

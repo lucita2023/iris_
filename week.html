@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Schedule</title>
+    <link rel="stylesheet" href="week.css">
+    <style>
+        .buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .buttons button {
+            margin-right: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+        .buttons button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>WEEKLY SCHEDULE</h1>
+            <div class="week-info">
+                <label for="week-covered">WEEK COVERED:</label>
+                <input type="text" id="week-covered" placeholder="Enter week">
+            </div>
+        </div>
+        
+        <div class="objectives">
+            <h3>OBJECTIVES FOR THE WEEK</h3>
+            <textarea rows="4" id="objectives" placeholder="Enter your weekly objectives here..."></textarea>
+        </div>
+
+        <div class="deadlines">
+            <h3>DEADLINES FOR THE WEEK</h3>
+            <textarea rows="4" id="deadlines" placeholder="Enter your deadlines here..."></textarea>
+        </div>
+
+        <div class="schedule">
+            <div class="day">
+                <label for="monday-date">MONDAY</label>
+                <input type="date" id="monday-date">
+                <textarea id="monday-remarks" placeholder="Remarks"></textarea>
+            </div>
+            <div class="day">
+                <label for="tuesday-date">TUESDAY</label>
+                <input type="date" id="tuesday-date">
+                <textarea id="tuesday-remarks" placeholder="Remarks"></textarea>
+            </div>
+            <div class="day">
+                <label for="wednesday-date">WEDNESDAY</label>
+                <input type="date" id="wednesday-date">
+                <textarea id="wednesday-remarks" placeholder="Remarks"></textarea>
+            </div>
+            <div class="day">
+                <label for="thursday-date">THURSDAY</label>
+                <input type="date" id="thursday-date">
+                <textarea id="thursday-remarks" placeholder="Remarks"></textarea>
+            </div>
+            <div class="day">
+                <label for="friday-date">FRIDAY</label>
+                <input type="date" id="friday-date">
+                <textarea id="friday-remarks" placeholder="Remarks"></textarea>
+            </div>
+            <div class="day">
+                <label for="saturday-date">SATURDAY</label>
+                <input type="date" id="saturday-date">
+                <textarea id="saturday-remarks" placeholder="Remarks"></textarea>
+            </div>
+        </div>
+
+        <!-- Buttons for Submit, Edit, and Print -->
+        <div class="buttons">
+            <button onclick="submitForm()">Submit</button>
+            <button onclick="editForm()">Edit</button>
+            <button onclick="printForm()">Print</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to submit form data
+        function submitForm() {
+            const scheduleData = {
+                weekCovered: document.getElementById('week-covered').value,
+                objectives: document.getElementById('objectives').value,
+                deadlines: document.getElementById('deadlines').value,
+                days: {
+                    monday: {
+                        date: document.getElementById('monday-date').value,
+                        remarks: document.getElementById('monday-remarks').value
+                    },
+                    tuesday: {
+                        date: document.getElementById('tuesday-date').value,
+                        remarks: document.getElementById('tuesday-remarks').value
+                    },
+                    wednesday: {
+                        date: document.getElementById('wednesday-date').value,
+                        remarks: document.getElementById('wednesday-remarks').value
+                    },
+                    thursday: {
+                        date: document.getElementById('thursday-date').value,
+                        remarks: document.getElementById('thursday-remarks').value
+                    },
+                    friday: {
+                        date: document.getElementById('friday-date').value,
+                        remarks: document.getElementById('friday-remarks').value
+                    },
+                    saturday: {
+                        date: document.getElementById('saturday-date').value,
+                        remarks: document.getElementById('saturday-remarks').value
+                    }
+                }
+            };
+
+            // Saving the data in localStorage for demonstration
+            localStorage.setItem('weeklySchedule', JSON.stringify(scheduleData));
+
+            alert('Weekly schedule submitted successfully!');
+        }
+
+        // Function to enable editing the form fields
+        function editForm() {
+            const scheduleData = JSON.parse(localStorage.getItem('weeklySchedule'));
+
+            if (scheduleData) {
+                document.getElementById('week-covered').value = scheduleData.weekCovered;
+                document.getElementById('objectives').value = scheduleData.objectives;
+                document.getElementById('deadlines').value = scheduleData.deadlines;
+
+                document.getElementById('monday-date').value = scheduleData.days.monday.date;
+                document.getElementById('monday-remarks').value = scheduleData.days.monday.remarks;
+                document.getElementById('tuesday-date').value = scheduleData.days.tuesday.date;
+                document.getElementById('tuesday-remarks').value = scheduleData.days.tuesday.remarks;
+                document.getElementById('wednesday-date').value = scheduleData.days.wednesday.date;
+                document.getElementById('wednesday-remarks').value = scheduleData.days.wednesday.remarks;
+                document.getElementById('thursday-date').value = scheduleData.days.thursday.date;
+                document.getElementById('thursday-remarks').value = scheduleData.days.thursday.remarks;
+                document.getElementById('friday-date').value = scheduleData.days.friday.date;
+                document.getElementById('friday-remarks').value = scheduleData.days.friday.remarks;
+                document.getElementById('saturday-date').value = scheduleData.days.saturday.date;
+                document.getElementById('saturday-remarks').value = scheduleData.days.saturday.remarks;
+
+                alert('You can now edit the form!');
+            } else {
+                alert('No saved schedule found!');
+            }
+        }
+
+        // Function to print the page
+        function printForm() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

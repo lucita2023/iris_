@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Visit Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-container {
+            max-width: 800px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .actions {
+            text-align: center;
+        }
+        .actions button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        textarea {
+            width: 100%;
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Site Visit Form</h1>
+        <form id="siteVisitForm">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            <br><br>
+
+            <label for="organization">School/Company/Organization:</label>
+            <input type="text" id="organization" name="organization" required>
+            <br><br>
+
+            <h3>Client Attendees</h3>
+            <table id="clientTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><input type="text" name="name1"></td>
+                        <td><input type="text" name="designation1"></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><input type="text" name="name2"></td>
+                        <td><input type="text" name="designation2"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes"></textarea>
+
+            <h3>Action Items</h3>
+            <table id="actionTable">
+                <thead>
+                    <tr>
+                        <th>Action Items</th>
+                        <th>Target Date</th>
+                        <th>P/C</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="action1"></td>
+                        <td><input type="date" name="targetDate1"></td>
+                        <td><input type="text" name="pc1"></td>
+                        <td><input type="text" name="status1"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="actions">
+                <button type="button" onclick="saveToExcel()">Save to Excel</button>
+                <button type="reset">Clear Form</button>
+                <button type="button" onclick="window.print()">Print Form</button>
+                <button type="button" onclick="saveToDatabase()">Save to Database</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        function saveToExcel() {
+            const wb = XLSX.utils.book_new();
+            const wsData = [];
+            const form = document.getElementById('siteVisitForm');
+
+            // Collect form data
+            const formData = new FormData(form);
+            formData.forEach((value, key) => {
+                wsData.push([key, value]);
+            });
+
+            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            XLSX.utils.book_append_sheet(wb, ws, 'Site Visit Form');
+            XLSX.writeFile(wb, 'SiteVisitForm.xlsx');
+        }
+
+        function saveToDatabase() {
+            const formData = new FormData(document.getElementById('siteVisitForm'));
+
+            fetch('save_to_database.php', {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    alert('Data saved successfully!');
+                } else {
+                    alert('Failed to save data.');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('Error saving data.');
+            });
+        }
+    </script>
+
+    <!--
+    <?php
+// save_to_database.php
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $date = $_POST['date'] ?? '';
+    $organization = $_POST['organization'] ?? '';
+    $notes = $_POST['notes'] ?? '';
+
+    // Database connection
+    $conn = new mysqli('localhost', 'username', 'password', 'database');
+
+    if ($conn->connect_error) {
+        die('Connection failed: ' . $conn->connect_error);
+    }
+
+    // Save main form data
+    $stmt = $conn->prepare('INSERT INTO site_visit (date, organization, notes) VALUES (?, ?, ?)');
+    $stmt->bind_param('sss', $date, $organization, $notes);
+    if ($stmt->execute()) {
+        echo 'Data saved successfully.';
+    } else {
+        echo 'Failed to save data.';
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+
+    
+    
+    -->
+</body>
+</html>

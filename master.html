@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masterlist of Accounts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .date {
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        .add-row, .buttons {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .buttons button {
+            margin-right: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 6px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MASTERLIST OF ACCOUNTS</h1>
+            <div class="date">
+                <label for="date">Date:</label>
+                <input type="date" id="date">
+            </div>
+        </div>
+
+        <table id="accountTable">
+            <thead>
+                <tr>
+                    <th>ACCOUNT</th>
+                    <th>CONTACT PERSON</th>
+                    <th>POSITION</th>
+                    <th>ADDRESS (Street City, Province)</th>
+                    <th>CONTACT NO.</th>
+                    <th>E-MAIL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" placeholder="Account Name"></td>
+                    <td><input type="text" placeholder="Contact Person"></td>
+                    <td><input type="text" placeholder="Position"></td>
+                    <td><input type="text" placeholder="Address"></td>
+                    <td><input type="text" placeholder="Contact No."></td>
+                    <td><input type="email" placeholder="E-mail"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="add-row" onclick="addRow()">Add Row</button>
+
+        <div class="buttons">
+            <button onclick="printForm()">Print</button>
+            <button onclick="saveForm()">Save as XLS</button>
+            <button onclick="submitToGoogleSheet()">Submit to Google Sheets</button>
+        </div>
+    </div>
+
+    <script>
+        function addRow() {
+            const table = document.getElementById('accountTable').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+
+            for (let i = 0; i < 6; i++) {
+                const newCell = newRow.insertCell(i);
+                const inputType = i === 5 ? 'email' : 'text';
+                const placeholder = [
+                    'Account Name',
+                    'Contact Person',
+                    'Position',
+                    'Address',
+                    'Contact No.',
+                    'E-mail'
+                ][i];
+
+                const input = document.createElement('input');
+                input.type = inputType;
+                input.placeholder = placeholder;
+
+                newCell.appendChild(input);
+            }
+        }
+
+        function printForm() {
+            window.print();
+        }
+
+        function saveForm() {
+            const table = document.getElementById('accountTable');
+            let data = '';
+            const rows = table.getElementsByTagName('tr');
+            
+            for (let row of rows) {
+                const cells = row.getElementsByTagName('td');
+                let rowData = [];
+                for (let cell of cells) {
+                    const input = cell.getElementsByTagName('input')[0];
+                    if (input) rowData.push(input.value);
+                }
+                if (rowData.length > 0) {
+                    data += rowData.join('\t') + '\n';
+                }
+            }
+
+            const blob = new Blob([data], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'accounts_masterlist.xls';
+            link.click();
+        }
+
+        function submitToGoogleSheet() {
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxXSmB7G0sHCjPvP9rXiHmO0uVUxjzmUkaDJ3gVKbGzDsQX3eYWeBHucn56Q-Mifz2Y/exec"; // Replace with your Web App URL
+
+            const table = document.getElementById('accountTable');
+            const rows = table.getElementsByTagName('tr');
+            const data = {
+                date: document.getElementById('date').value,
+                accounts: []
+            };
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                const accountData = {
+                    account: cells[0].querySelector('input').value || "",
+                    contactPerson: cells[1].querySelector('input').value || "",
+                    position: cells[2].querySelector('input').value || "",
+                    address: cells[3].querySelector('input').value || "",
+                    contactNo: cells[4].querySelector('input').value || "",
+                    email: cells[5].querySelector('input').value || "",
+                };
+
+                data.accounts.push(accountData);
+            }
+
+            fetch(webAppUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === "success") {
+                    alert("Data successfully submitted to Google Sheets!");
+                } else {
+                    alert("Error submitting data: " + result.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while submitting data.");
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget Request Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .form-container {
+      margin-bottom: 20px;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 15px;
+      margin-right: 10px;
+      cursor: pointer;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Budget Request Form</h1>
+  <div class="form-container">
+    <table id="budgetTable">
+      <tr>
+        <th>Category</th>
+        <th>Mon</th>
+        <th>Tue</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+        <th>Sun</th>
+        <th>Actions</th>
+      </tr>
+      <tr>
+        <td><input type="text" name="category" placeholder="Category"></td>
+        <td><input type="number" name="mon"></td>
+        <td><input type="number" name="tue"></td>
+        <td><input type="number" name="wed"></td>
+        <td><input type="number" name="thu"></td>
+        <td><input type="number" name="fri"></td>
+        <td><input type="number" name="sat"></td>
+        <td><input type="number" name="sun"></td>
+        <td><button onclick="deleteRow(this)">Delete</button></td>
+      </tr>
+    </table>
+    <button onclick="addRow()">Add Row</button>
+  </div>
+
+  <div class="buttons">
+    <button onclick="saveAsExcel()">Save as XLS</button>
+    <button onclick="printForm()">Print</button>
+    <button onclick="clearForm()">Clear</button>
+    <button onclick="saveToDatabase()">Save to Database</button>
+  </div>
+
+  <script>
+    // Function to add a new row
+    function addRow() {
+      const table = document.getElementById("budgetTable");
+      const row = table.insertRow(-1);
+      row.innerHTML = `
+        <td><input type="text" name="category" placeholder="Category"></td>
+        <td><input type="number" name="mon"></td>
+        <td><input type="number" name="tue"></td>
+        <td><input type="number" name="wed"></td>
+        <td><input type="number" name="thu"></td>
+        <td><input type="number" name="fri"></td>
+        <td><input type="number" name="sat"></td>
+        <td><input type="number" name="sun"></td>
+        <td><button onclick="deleteRow(this)">Delete</button></td>
+      `;
+    }
+
+    // Function to delete a row
+    function deleteRow(button) {
+      const row = button.parentNode.parentNode;
+      row.remove();
+    }
+
+    // Function to clear the form
+    function clearForm() {
+      document.querySelectorAll('input').forEach(input => input.value = '');
+    }
+
+    // Function to print the form
+    function printForm() {
+      window.print();
+    }
+
+    // Function to save the form as Excel file
+    function saveAsExcel() {
+      const table = document.getElementById("budgetTable");
+      let tableText = "<table border='1'>" + table.innerHTML + "</table>";
+      let data = 'data:application/vnd.ms-excel,' + encodeURIComponent(tableText);
+      const link = document.createElement("a");
+      link.href = data;
+      link.download = "BudgetRequest.xls";
+      link.click();
+    }
+
+    // Function to simulate saving to a database
+    function saveToDatabase() {
+      const data = [];
+      const rows = document.querySelectorAll("#budgetTable tr:not(:first-child)");
+      rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        const rowData = {};
+        rowData.category = inputs[0].value;
+        rowData.mon = inputs[1].value;
+        rowData.tue = inputs[2].value;
+        rowData.wed = inputs[3].value;
+        rowData.thu = inputs[4].value;
+        rowData.fri = inputs[5].value;
+        rowData.sat = inputs[6].value;
+        rowData.sun = inputs[7].value;
+        data.push(rowData);
+      });
+      console.log("Data to be saved to database:", data);
+      alert("Data saved successfully!");
+    }
+  </script>
+
+</body>
+</html>

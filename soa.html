@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary of SOA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .header-group {
+            background-color: #e0f7fa;
+            text-align: center;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Summary of SOA</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Account</th>
+                    <th>SOA No.</th>
+                    <th>SOA Date</th>
+                    <th>Training</th>
+                    <th>Training Date</th>
+                    <th>No. of Pax</th>
+                    <th>Amount Billed</th>
+                    <th>Amount Collected</th>
+                    <th class="header-group" colspan="4">Breakdown of Fees (For Accounting Purposes)</th>
+                    <th class="header-group" colspan="2">Breakdown of TF / Meals & Accom (Only for Full Onsite)</th>
+                </tr>
+                <tr>
+                    <th colspan="8"></th>
+                    <th>Base Fee</th>
+                    <th>Disc or MU</th>
+                    <th>AF-R</th>
+                    <th>AF</th>
+                    <th>Training Fee</th>
+                    <th>Meals & Accom</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" name="account" /></td>
+                    <td><input type="text" name="soa_no" /></td>
+                    <td><input type="date" name="soa_date" /></td>
+                    <td><input type="text" name="training" /></td>
+                    <td><input type="date" name="training_date" /></td>
+                    <td><input type="number" name="no_of_pax" /></td>
+                    <td><input type="number" name="amount_billed" /></td>
+                    <td><input type="number" name="amount_collected" /></td>
+                    <td><input type="number" name="base_fee" /></td>
+                    <td><input type="number" name="disc_or_mu" /></td>
+                    <td><input type="number" name="af_r" /></td>
+                    <td><input type="number" name="af" /></td>
+                    <td><input type="number" name="training_fee" /></td>
+                    <td><input type="number" name="meals_and_accom" /></td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

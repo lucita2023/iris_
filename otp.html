@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send SMS OTP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Send OTP</h1>
+        <form id="otpForm">
+            <input type="text" id="phoneNumber" placeholder="Enter Phone Number" required>
+            <input type="submit" value="Send OTP">
+        </form>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('otpForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from refreshing the page
+            
+            // Get the phone number from the input
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const messageElement = document.getElementById('message');
+            
+            // Check if the phone number is valid (simple check for non-empty)
+            if (!phoneNumber) {
+                messageElement.textContent = "Please enter a valid phone number.";
+                messageElement.style.color = "red";
+                return;
+            }
+            
+            // Send SMS using Textbelt API
+            fetch('https://textbelt.com/text', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: phoneNumber,
+                    message: 'Your OTP is 123456', // Replace with your dynamic OTP logic
+                    key: 'textbelt', // Use free key for testing
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageElement.textContent = "OTP sent successfully!";
+                    messageElement.style.color = "green";
+                } else {
+                    messageElement.textContent = "Failed to send OTP. " + (data.error || "Please try again.");
+                    messageElement.style.color = "red";
+                }
+            })
+            .catch(error => {
+                messageElement.textContent = "Error: " + error.message;
+                messageElement.style.color = "red";
+            });
+        });
+    </script>
+</body>
+</html>

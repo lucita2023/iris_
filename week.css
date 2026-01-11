@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.week-info {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.week-info label {
+    font-weight: bold;
+}
+
+.week-info input {
+    padding: 5px;
+    font-size: 14px;
+    width: 200px;
+}
+
+.objectives,
+.deadlines {
+    margin-bottom: 20px;
+}
+
+.objectives h3,
+.deadlines h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.schedule .day {
+    margin-bottom: 15px;
+}
+
+.schedule .day label {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.schedule .day input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.schedule .day textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
